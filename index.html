@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download Page</title>
+
+  <style>
+    @font-face {
+      font-family: 'CashMarket';
+      src: url('CashMarket-BoldRounded.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'CashMarket', Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0b0f1a;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* 👉 ICÔNE IMAGE (modifiable facilement) */
+    .icon img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      opacity: 0.7;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #ff4d4d, #ff7a18);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: 0.3s;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 90, 50, 0.5);
+    }
+
+    .btn:hover {
+    background: linear-gradient(135deg, #ff6a6a, #ff9a3c);
+    transform: scale(1.07);
+    box-shadow: 0 0 25px rgba(255, 120, 60, 0.8);
+    }
+
+    #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(12px) brightness(0.4);
+    z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+
+<video autoplay muted loop id="bg-video">
+  <source src="background.mp4" type="video/mp4">
+</video>
+
+<canvas id="particles"></canvas>
+
+<div class="content">
+
+  <!-- 🔥 CHANGE TON IMAGE ICI -->
+  <div class="icon">
+    <img src="beansandboxicon.png" alt="icon">
+  </div>
+
+  <h1>BeanSandbox</h1>
+  <p>Let free your creativity</p>
+
+  <!-- 🔥 CHANGE TON LIEN ICI (Dropbox, Drive, etc.) -->
+  <a class="btn"
+     href="https://www.dropbox.com/s/TON-LIEN?dl=1"
+     target="_blank">
+    Download Windows 64-bit
+  </a>
+</div>
+
+<script>
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particlesArray = [];
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 3;
+      this.speedX = Math.random() * 1 - 0.5;
+      this.speedY = Math.random() * 1 - 0.5;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x > canvas.width) this.x = 0;
+      if (this.x < 0) this.x = canvas.width;
+      if (this.y > canvas.height) this.y = 0;
+      if (this.y < 0) this.y = canvas.height;
+    }
+
+    draw() {
+      ctx.fillStyle = "rgba(255,255,255,0.6)";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    for (let i = 0; i < 80; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  init();
+  animate();
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  // --- Démarrer la vidéo à un timecode précis (ex: 10 secondes) ---
+  const bgVideo = document.getElementById('bg-video');
+  const startTime = 15; // Change ici le timecode de départ en secondes
+  bgVideo.addEventListener('loadedmetadata', function() {
+    if (bgVideo.currentTime < startTime) {
+      bgVideo.currentTime = startTime;
+    }
+  });
+  // Si la vidéo est déjà prête (cache), forcer le timecode
+  if (bgVideo.readyState >= 1) {
+    bgVideo.currentTime = startTime;
+  }
+</script>
+
+  </div>
+
+  <!-- SECTION FEATURES (modifie ici pour changer les features) -->
+
+  <!-- ESPACE POUR CACHER LES FEATURES AU CHARGEMENT -->
+  <div class="spacer"></div>
+
+  <!-- SECTION FEATURES (modifie ici pour changer les features) -->
+  <section class="features-section fade-in-on-scroll">
+    <h2>Fonctionnalités principales</h2>
+    <div class="features-list">
+      <div class="feature">
+        <h3>🕹️ Projet sandbox Godot</h3>
+        <p>Développé sur le moteur Godot pour une flexibilité maximale.</p>
+      </div>
+      <div class="feature">
+        <h3>🌐 Serveur multijoueur Go</h3>
+        <p>Serveur multijoueur robuste et rapide, codé en Go.</p>
+      </div>
+      <div class="feature">
+        <h3>🎤 Chat vocal de proximité</h3>
+        <p>Discute avec les joueurs proches de toi grâce au chat vocal intégré.</p>
+      </div>
+      <!-- Ajoute/modifie/supprime des features ici -->
+    </div>
+  </section>
+
+  <!-- ROADMAP VERTICALE (modifie ici pour changer la roadmap) -->
+  <section class="roadmap-section fade-in-on-scroll">
+    <h2>Roadmap</h2>
+    <ul class="roadmap-list">
+      <li>
+        <span class="roadmap-dot"></span>
+        <div class="roadmap-content">
+          <strong>API Lua</strong>
+          <p>Permettre aux utilisateurs de créer des scripts personnalisés côté client.</p>
+        </div>
+      </li>
+      <li>
+        <span class="roadmap-dot"></span>
+        <div class="roadmap-content">
+          <strong>Script Lua côté serveur</strong>
+          <p>Support des scripts Lua exécutés côté serveur pour une logique avancée.</p>
+        </div>
+      </li>
+      <!-- Ajoute/modifie/supprime des étapes ici -->
+    </ul>
+  </section>
+
+  <footer class="footer-credit">
+    <small>
+      Background video: Final Fantasy XIV Stormblood trailer by Square Enix.<br>
+      This website is not affiliated with Square Enix. All rights belong to their respective owners.
+    </small>
+  </footer>
+
+  <style>
+    .spacer {
+      height: 0;
+      width: 100vw;
+      pointer-events: none;
+    }
+    .features-section {
+      margin-top: 0;
+      padding: 60px 0 40px 0;
+      background: rgba(15, 20, 35, 0.92);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 -8px 32px 0 rgba(0,0,0,0.25);
+      width: 100vw;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 0.9s cubic-bezier(.4,0,.2,1), transform 0.9s cubic-bezier(.4,0,.2,1);
+    }
+    .features-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+        .roadmap-section {
+          background: rgba(20, 25, 40, 0.95);
+          padding: 48px 0 40px 0;
+          width: 100vw;
+          position: relative;
+          z-index: 2;
+          box-shadow: 0 -4px 24px 0 rgba(0,0,0,0.18);
+          opacity: 0;
+          transform: translateY(60px);
+          transition: opacity 0.9s cubic-bezier(.4,0,.2,1), transform 0.9s cubic-bezier(.4,0,.2,1);
+        }
+        .roadmap-section.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .roadmap-section h2 {
+          font-size: 2rem;
+          color: #ff7a18;
+          margin-bottom: 32px;
+        }
+        .roadmap-list {
+          list-style: none;
+          padding: 0;
+          margin: 0 auto;
+          max-width: 400px;
+          display: flex;
+          flex-direction: column;
+          gap: 36px;
+          position: relative;
+        }
+        .roadmap-list li {
+          display: flex;
+          align-items: flex-start;
+          position: relative;
+        }
+        .roadmap-dot {
+          width: 18px;
+          height: 18px;
+          background: linear-gradient(135deg, #ff4d4d, #ff7a18);
+          border-radius: 50%;
+          margin-right: 18px;
+          margin-top: 6px;
+          box-shadow: 0 0 8px 2px rgba(255, 120, 60, 0.18);
+          flex-shrink: 0;
+        }
+        .roadmap-content {
+          background: rgba(255,255,255,0.07);
+          border-radius: 10px;
+          padding: 16px 22px;
+          color: #fff;
+          box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+          min-width: 0;
+          text-align: left;
+        }
+        .roadmap-content strong {
+          color: #ff7a18;
+          font-size: 1.08rem;
+          display: block;
+          margin-bottom: 4px;
+        }
+        .roadmap-content p {
+          margin: 0;
+          font-size: 0.98rem;
+          opacity: 0.85;
+        }
+        /* Fade-in on scroll JS helper */
+        .fade-in-on-scroll {
+          will-change: opacity, transform;
+        }
+    .features-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 32px;
+      color: #ff7a18;
+      letter-spacing: 1px;
+    }
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .feature {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px 32px;
+      min-width: 220px;
+      max-width: 300px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+      transition: transform 0.2s;
+    }
+    .feature:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px 0 rgba(255, 120, 60, 0.15);
+    }
+    .feature h3 {
+      color: #ff7a18;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .feature p {
+      color: #fff;
+      opacity: 0.8;
+      font-size: 1rem;
+    }
+    .footer-credit {
+      width: 100vw;
+      text-align: center;
+      position: fixed;
+      bottom: 8px;
+      left: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .footer-credit small {
+      color: #fff;
+      opacity: 0.35;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+      user-select: none;
+    }
+  </style>
+
+  <script>
+    // Fade-in on scroll pour features et roadmap
+    function handleFadeInOnScroll() {
+      const fadeEls = document.querySelectorAll('.fade-in-on-scroll');
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.85) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', handleFadeInOnScroll);
+    window.addEventListener('DOMContentLoaded', handleFadeInOnScroll);
+  </script>
+</body>
+</html>
